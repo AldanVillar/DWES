@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost";
 $username = "root";
-$password = "";
+$password = "1234";
 $dbname = "mysitedb";
 
 try {
@@ -61,3 +61,25 @@ try {
 
 </body>
 </html>
+<h2>Agregar nuevo comentario</h2>
+<form method="post" action="">
+    <label>Usuario:</label><br>
+    <input type="text" name="usuario" required><br><br>
+    <label>Comentario:</label><br>
+    <textarea name="comentario" rows="4" cols="50" required></textarea><br><br>
+    <button type="submit">Enviar</button>
+</form>
+
+<?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $usuario = $_POST['usuario'];
+    $comentario = $_POST['comentario'];
+    $fecha = date('Y-m-d H:i:s');
+
+    $stmt3 = $conn->prepare("INSERT INTO tComentarios (id_libro, usuario, comentario, fecha) VALUES (?, ?, ?, ?)");
+    $stmt3->execute([$id, $usuario, $comentario, $fecha]);
+
+    echo "<p style='color:green;'>Comentario añadido correctamente.</p>";
+    echo "<meta http-equiv='refresh' content='1'>"; // recarga la página
+}
+?>
