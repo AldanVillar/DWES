@@ -3,6 +3,9 @@
 session_start();
 $db = mysqli_connect('localhost', 'root', '1234', 'web_canciones') or die('Fail');
 
+$user= isset($_SESSION['user_id']);
+echo "Bienvenido " . $user;
+
 if (!isset($_GET['cancion_id'])) { die('Falta cancion_id'); }
 $cancion_id = (int) $_GET['cancion_id'];
 
