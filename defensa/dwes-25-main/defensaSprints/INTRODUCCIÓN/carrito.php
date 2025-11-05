@@ -20,10 +20,9 @@
       echo "<tr><th>Producto</th><th>Precio (€)</th></tr>";
 
       foreach ($productos as $producto) {
-        
         echo "<tr>";
         echo "<td>" . $producto . "</td>";
-        echo "<td>" .  . "</td>";
+        echo "<td>" . $precio . "</td>";
         echo "</tr>";
         $total = $total + $precio;
       }
