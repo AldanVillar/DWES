@@ -19,12 +19,12 @@
       echo "<table border='1'>";
       echo "<tr><th>Producto</th><th>Precio (€)</th></tr>";
 
-      foreach ($productos as $producto) {
+      for ($i = 0; $i < 2; $i = $i + 1) {
         echo "<tr>";
-        echo "<td>" . $producto . "</td>";
-        echo "<td>" . $precio . "</td>";
+        echo "<td>" . $productos[$i] . "</td>";
+        echo "<td>" . $precios[$i] . "</td>";
         echo "</tr>";
-        $total = $total + $precio;
+        $total = $total + $precios[$i];
       }
 
       echo "<tr><td><b>TOTAL</b></td><td><b>" . $total . "</b></td></tr>";
