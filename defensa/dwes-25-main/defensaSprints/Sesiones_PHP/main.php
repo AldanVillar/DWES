@@ -7,6 +7,7 @@ $stmt = mysqli_prepare($db, $query);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 
+
 echo '<!DOCTYPE html>';
 echo '<html lang="es">';
 echo '<head>';
@@ -45,12 +46,12 @@ echo '  </nav>';
 echo '</header>';
 /*Haz que se listen todas las canciones*/
 echo '<div class="list">';
-while () {
-  echo '  <a class="item" href="/detail.php?cancion_id=' .  . '">';
-  echo '    <img class="thumb" src="' . . '" alt="cover">';
+while ($result > 0) {
+  echo '  <a class="item" href="/detail.php?cancion_id=' . $id . '">';
+  echo '    <img class="thumb" src="' . $img . '" alt="cover">';
   echo '    <div>';
-  echo '      <h3 class="title">' .  . '</h3>';
-  echo '      <p class="artist">' .  . '</p>';
+  echo '      <h3 class="title">' . $titulo . '</h3>';
+  echo '      <p class="artist">' . $artista . '</p>';
   echo '    </div>';
   echo '  </a>';
 }
