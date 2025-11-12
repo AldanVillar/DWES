@@ -1,5 +1,3 @@
-# 💳 Simulador de Cajero Automático
-
 def mostrar_menu():
     print("\n=== MENÚ PRINCIPAL ===")
     print("1. Consultar saldo")
