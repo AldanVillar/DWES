@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from biblioteca/views.py import LibroListCreateAPIView, LibroDetailAPIView
+from biblioteca.views import LibroListCreateAPIView, LibroDetailAPIView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
