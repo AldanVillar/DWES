@@ -1,52 +1,34 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Libro
+from .models import Libro, Autor
+from .serializers import LibroSerializer, AutorSerializer
+from rest_framework.viewsets import ModelViewSet
+
 
 class LibroListCreateAPIView(APIView):
 
-    # GET /api/libros/
+    # GET lista
     def get(self, request):
         libros = Libro.objects.all()
-        data = []
+        serializer = LibroSerializer(libros, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
-        for libro in libros:
-            data.append({
-                'id': libro.id,
-                'titulo': libro.titulo,
-                'isbn': libro.isbn,
-                'precio': libro.precio,
-                'stock': libro.stock,
-                'disponible': libro.disponible
-            })
-
-        return Response(data, status=status.HTTP_200_OK)
-
-    # POST /api/libros/
+    # POST crear
     def post(self, request):
-        data = request.data
+        serializer = LibroSerializer(data=request.data)
 
-        libro = Libro.objects.create(
-            titulo=data.get('titulo'),
-            isbn=data.get('isbn'),
-            precio=data.get('precio'),
-            stock=data.get('stock'),
-            disponible=data.get('disponible', True),
-            autor_id=data.get('autor')  # se pasa el id del autor
-        )
+        if serializer.is_valid():
+            libro = serializer.save(autor_id=request.data.get('autor_id'))
+            return Response(
+                LibroSerializer(libro).data,
+                status=status.HTTP_201_CREATED
+            )
 
-        return Response(
-            {
-                'id': libro.id,
-                'mensaje': 'Libro creado correctamente'
-            },
-            status=status.HTTP_201_CREATED
-        )
-
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class LibroDetailAPIView(APIView):
 
-    # GET /api/libros/{id}/
     def get(self, request, pk):
         try:
             libro = Libro.objects.get(pk=pk)
@@ -56,13 +38,14 @@ class LibroDetailAPIView(APIView):
                 status=status.HTTP_404_NOT_FOUND
             )
 
-        data = {
-            'id': libro.id,
-            'titulo': libro.titulo,
-            'isbn': libro.isbn,
-            'precio': libro.precio,
-            'stock': libro.stock,
-            'disponible': libro.disponible
-        }
+        serializer = LibroSerializer(libro)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
-        return Response(data, status=status.HTTP_200_OK)
+class AutorViewSet(ModelViewSet):
+    queryset = Autor.objects.all()
+    serializer_class = AutorSerializer
+
+class LibroViewSet(ModelViewSet):
+    queryset = Libro.objects.all()
+    serializer_class = LibroSerializer
+
