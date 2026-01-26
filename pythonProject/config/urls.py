@@ -16,10 +16,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from biblioteca.views import LibroListCreateAPIView, LibroDetailAPIView
+from biblioteca.views import LibroListCreateAPIView, LibroDetailAPIView, LibroViewSet, AutorViewSet
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+
+
+router = DefaultRouter()
+router.register('libros', LibroViewSet, basename='libro')
+router.register('autores', AutorViewSet, basename='autor')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/libros/', LibroListCreateAPIView.as_view()),
     path('api/libros/<int:pk>/', LibroDetailAPIView.as_view()),
+    path('api/', include(router.urls)),
 ]
